@@ -1,21 +1,21 @@
 {
-  "name": "parcel-project-template",
+  "name": "simon-says",
   "version": "0.1.2",
   "description": "",
-  "homepage": "https://pptzz.github.io/Simon-Says/",
+  "homepage": "https://pptzz.github.io/simon-says/",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /Simon-Says/"
+    "build": "parcel build src/*.html --public-url /simon-says/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pptzz/Simon-Says"
+    "url": "git+https://github.com/pptzz/simon-says"
   },
   "keywords": [],
   "author": "Alexandru Poputa <poputa.alex@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pptzz/Simon-Says/issues"
+    "url": "https://github.com/pptzz/simon-says/issues"
   },
   "dependencies": {
     "modern-normalize": "^1.1.0"
