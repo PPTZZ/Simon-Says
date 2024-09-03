@@ -1,89 +1,86 @@
-const buttonColours = [`red`, `blue`, `green`,`yellow`];
-const gamePattern = [];
-const userClickedPattern = [];
+import wrong from 'url:./sounds/wrong.mp3';
+import blue from 'url:./sounds/blue.mp3';
+import green from 'url:./sounds/green.mp3';
+import red from 'url:./sounds/red.mp3';
+import yellow from 'url:./sounds/yellow.mp3';
+
+const buttonColours = [`red`, `blue`, `green`, `yellow`];
+const buttonSounds = [red, blue, green, yellow];
+let gamePattern = [];
+let userClickedPattern = [];
 let started = false;
 let level = 0;
 
-const buttons = document.querySelectorAll('.btn')
+const buttons = document.querySelectorAll('.btn');
 
-buttons.forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
-        const userChosenColour = e.target.id;
-        console.log(userChosenColour);
-    })
+const playSound = audio => {
+  let sound = new Audio(audio);
+  sound.play();
+};
+
+const wrongAnimation = () => {
+  document.querySelector(`body`).classList.toggle(`game-over`);
+  setTimeout(() => {
+    document.querySelector(`body`).classList.toggle(`game-over`);
+  }, 200);
+};
+
+const animatePress = currentColour => {
+  document.querySelector(`#${currentColour}`).classList.toggle(`pressed`);
+  setTimeout(() => {
+    document.querySelector(`#${currentColour}`).classList.toggle(`pressed`);
+  }, 100);
+};
+
+const nextSequence = () => {
+  userClickedPattern = [];
+  const randomNumber = Math.floor(Math.random() * buttonColours.length);
+  const randomChosenColour = buttonColours[randomNumber];
+  gamePattern.push(randomChosenColour);
+  animatePress(randomChosenColour);
+  document.querySelector(`#level-title`).textContent = `Level ${level}`;
+  level++;
+};
+
+const startOver = () => {
+  level = 0;
+  gamePattern = [];
+  started = false;
+};
+
+const checkAnswer = currentLevel => {
+  if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
+    if (userClickedPattern.length === gamePattern.length) {
+      setTimeout(() => {
+        nextSequence();
+      }, 1000);
+    }
+  } else {
+    wrongAnimation();
+    playSound(wrong);
+    document.querySelector('#level-title').textContent =
+      'Game over, press A to restart.';
+    startOver();
+  }
+};
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', e => {
+    const userChosenColour = e.target.id;
+    const userChosenSound = buttonColours.findIndex(e => e == userChosenColour);
+    userClickedPattern.push(userChosenColour);
+    animatePress(userChosenColour);
+    checkAnswer(userClickedPattern.length - 1);
+    playSound(buttonSounds[userChosenSound])
+  });
 });
 
-// $(`.btn`).click( function(){
-    
-//     userClickedPattern.push(userChosenColour);
-//     playSound(userChosenColour);
-//     animatePress(userChosenColour);
-//     checkAnswer(userClickedPattern.length-1);
-// });
-
-// $(window).keydown(function(){
-//     if(!started){
-//     nextSequence();
-//     $(`#level-title`).text(`Level ${level}`);
-//     started = true;
-//     }
-    
-// })
-
-// function checkAnswer(currentLevel){
-//     if(gamePattern[currentLevel] === userClickedPattern[currentLevel]){
-//         if (userClickedPattern.length === gamePattern.length){
-//             setTimeout(function(){
-//                 nextSequence();
-//             }, 1000);
-//     }
-//     } else {
-//         wrongSound();
-//         wrongAnimation();
-//         $(`#level-title`).text(`Game over, press any key to restart.`);
-//         startOver();
-//     }
-// }
-
-// function nextSequence(){
-//     userClickedPattern = [];
-//     let randomNumber = Math.floor(Math.random()*buttonColours.length);
-//     let randomChosenColour = buttonColours[randomNumber];
-//     gamePattern.push(randomChosenColour);
-//     playSound(randomChosenColour);
-//     $(`#${randomChosenColour}`).fadeIn(100).fadeOut(100).fadeIn(100);
-//     $(`#level-title`).text(`Level ${level}`);
-//     level++;
-// }
-
-// function playSound(name){
-//     let sound = new Audio(`/sounds/${name}.mp3`);
-//     sound.play();
-// }
-
-// function wrongSound(){
-//     let mistake = new Audio(`/sounds/wrong.mp3`);
-//     mistake.play();
-// }
-
-// function wrongAnimation(){
-//     $(`body`).toggleClass(`game-over`);
-//     setTimeout( () => {
-//         $(`body`).toggleClass(`game-over`)
-//     }, 200);
-// }
-
-// function animatePress(currentColour){
-//     $(`#${currentColour}`).toggleClass(`pressed`);
-//     setTimeout( () => {
-//         $(`#${currentColour}`).toggleClass(`pressed`); 
-//     }, 100);
-    
-// }   
-
-// function startOver() {
-//     level = 0;
-//     gamePattern = [];
-//     started = false;
-// }
-
+window.addEventListener('keydown', e => {
+  if (e.code === 'KeyA') {
+    if (!started) {
+      nextSequence();
+      document.querySelector(`#level-title`).textContent = `Level ${level}`;
+      started = true;
+    }
+  }
+});
