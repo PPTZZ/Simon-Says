@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PPTZZ/Simon-Says"
+    "url": "git+https://github.com/pptzz/Simon-Says"
   },
   "keywords": [],
-  "author": "Alexander Repeta <alexander.repeta@gmail.com>",
+  "author": "Alexandru Poputa <poputa.alex@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/PPTZZ/Simon-Says/issues"
+    "url": "https://github.com/pptzz/Simon-Says/issues"
   },
   "dependencies": {
     "modern-normalize": "^1.1.0"
