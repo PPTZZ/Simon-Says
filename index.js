@@ -1,11 +1,6 @@
-import wrong from 'url:./sounds/wrong.mp3';
-import blue from 'url:./sounds/blue.mp3';
-import green from 'url:./sounds/green.mp3';
-import red from 'url:./sounds/red.mp3';
-import yellow from 'url:./sounds/yellow.mp3';
+
 
 const buttonColours = [`red`, `blue`, `green`, `yellow`];
-const buttonSounds = [red, blue, green, yellow];
 let gamePattern = [];
 let userClickedPattern = [];
 let started = false;
@@ -37,8 +32,8 @@ const nextSequence = () => {
   const randomNumber = Math.floor(Math.random() * buttonColours.length);
   const randomChosenColour = buttonColours[randomNumber];
   gamePattern.push(randomChosenColour);
-  playSound(buttonColours[randomNumber])
   animatePress(randomChosenColour);
+  playSound(`./sounds/${randomChosenColour}.mp3`)
   document.querySelector(`#level-title`).textContent = `Level ${level}`;
   level++;
 };
@@ -57,8 +52,8 @@ const checkAnswer = currentLevel => {
       }, 1000);
     }
   } else {
+    playSound('./sounds/wrong.mp3')
     wrongAnimation();
-    playSound(wrong);
     document.querySelector('#level-title').textContent =
       'Game over, press A to restart.';
     startOver();
@@ -68,11 +63,10 @@ const checkAnswer = currentLevel => {
 buttons.forEach(btn => {
   btn.addEventListener('click', e => {
     const userChosenColour = e.target.id;
-    const userChosenSound = buttonColours.findIndex(e => e == userChosenColour);
     userClickedPattern.push(userChosenColour);
+    playSound(`./sounds/${userChosenColour}.mp3`)
     animatePress(userChosenColour);
     checkAnswer(userClickedPattern.length - 1);
-    playSound(buttonSounds[userChosenSound])
   });
 });
 
