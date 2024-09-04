@@ -37,6 +37,7 @@ const nextSequence = () => {
   const randomNumber = Math.floor(Math.random() * buttonColours.length);
   const randomChosenColour = buttonColours[randomNumber];
   gamePattern.push(randomChosenColour);
+  playSound(buttonColours[randomNumber])
   animatePress(randomChosenColour);
   document.querySelector(`#level-title`).textContent = `Level ${level}`;
   level++;
